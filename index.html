@@ -72,7 +72,7 @@
                     <td>${index + 1}</td>
                     <td>${user.username}</td>
                     <td>${user.email}</td>
-                    <td>${expiryDate.toLocaleString()}</td> <!-- ✅ Fixed Date Format -->
+                    <td>${expiryDate.toLocaleString()}</td> 
                     <td><span class="badge ${status === 'Active' ? 'bg-success' : 'bg-danger'}">${status}</span></td>
                     <td>
                         <button onclick="editUser(${index})" class="btn btn-info btn-sm">Edit</button>
@@ -81,16 +81,21 @@
                 </tr>
             `;
         });
-        localStorage.setItem("users", JSON.stringify(users)); // ✅ Save updated data
+        localStorage.setItem("users", JSON.stringify(users));
     }
 
     document.getElementById("userForm").addEventListener("submit", function(e) {
         e.preventDefault();
         let username = document.getElementById("username").value.trim();
         let email = document.getElementById("email").value.trim();
-        let expiry = document.getElementById("expiry").value || new Date().toISOString(); // ✅ Ensure Correct Format
+        let expiry = document.getElementById("expiry").value || new Date().toISOString(); 
 
-        users.push({ username, email, expiry });
+        users.push({ 
+            username: username.toLowerCase(),  // ✅ Case-insensitive
+            email, 
+            expiry 
+        });
+
         renderUsers();
         this.reset();
     });
@@ -105,15 +110,16 @@
         let newEmail = prompt("Enter new email:", users[index].email);
         let newExpiry = prompt("Enter new expiry date (YYYY-MM-DDTHH:MM:SS):", users[index].expiry);
         if (newUsername && newEmail && newExpiry) {
-            users[index].username = newUsername;
+            users[index].username = newUsername.toLowerCase(); 
             users[index].email = newEmail;
-            users[index].expiry = new Date(newExpiry).toISOString(); // ✅ Ensure Correct Format
+            users[index].expiry = new Date(newExpiry).toISOString(); 
             renderUsers();
         }
     }
 
     renderUsers();
 </script>
+
 
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
