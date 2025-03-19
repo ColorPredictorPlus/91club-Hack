@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bypass Link Viewer</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background: url('https://source.unsplash.com/random/1600x900/?technology') no-repeat center center/cover;
+        }
+
+        .container {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 20px;
+            border-radius: 15px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            text-align: center;
+            width: 90%;
+            max-width: 450px;
+            color: white;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+        }
+
+        h2 {
+            font-size: 24px;
+            margin-bottom: 10px;
+        }
+
+        p {
+            font-size: 14px;
+            margin-bottom: 15px;
+        }
+
+        input {
+            width: 100%;
+            padding: 12px;
+            margin: 10px 0;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            outline: none;
+            text-align: center;
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            transition: 0.3s;
+        }
+
+        input::placeholder {
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        button {
+            background: #4CAF50;
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            border-radius: 5px;
+            transition: 0.3s;
+            margin-top: 10px;
+        }
+
+        button:hover {
+            background: #45a049;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h2>Bypass Link Viewer</h2>
+        <p>Paste the shortened link below</p>
+        <input type="text" id="shortUrl" placeholder="Enter Shortened URL" autofocus>
+        <button onclick="bypassLink()">Bypass</button>
+    </div>
+
+    <script>
+        function bypassLink() {
+            let inputUrl = document.getElementById("shortUrl").value.trim();
+            if (inputUrl === "") {
+                alert("Please enter a valid URL!");
+                return;
+            }
+
+            // Ensure the URL is correct
+            let urlParts = inputUrl.split("/");
+            if (urlParts.length < 3) {
+                alert("Invalid URL format!");
+                return;
+            }
+
+            // Modify the URL to add "go."
+            let domain = urlParts[2]; 
+            let modifiedDomain = "go." + domain.replace("www.", ""); 
+            let finalUrl = "https://" + modifiedDomain + "/" + urlParts.slice(3).join("/");
+
+            // Redirect in the same tab
+            window.location.href = finalUrl;
+        }
+    </script>
+
+</body>
+</html>
